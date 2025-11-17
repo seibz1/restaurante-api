@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container" style="display: block;">
+    <h1>Painel de Administração</h1>
+    <p>Use este painel para popular o banco de dados (criar usuários e mesas).</p>
+
+    <a href="reserva.html" class="btn" style="margin-bottom: 20px; display: inline-block;">Ir para Reservas</a>
+
+    <div style="display: flex; gap: 30px;">
+        <div style="flex: 1;">
+            <h3>1. Cadastrar Usuário (POST /api/usuarios)</h3>
+            <form id="usuarioForm">
+                <div class="form-group">
+                    <label for="userName">Nome:</label>
+                    <input type="text" id="userName" value="Lucca Seib" required>
+                </div>
+                <div class="form-group">
+                    <label for="userEmail">Email:</label>
+                    <input type="text" id="userEmail" value="lucca.seib@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="userSenha">Senha:</label>
+                    <input type="password" id="userSenha" value="senhaforte123" required>
+                </div>
+                <button type="submit" class="btn">Salvar Usuário</button>
+            </form>
+        </div>
+
+        <div style="flex: 1;">
+            <h3>2. Cadastrar Mesa (POST /api/mesas)</h3>
+            <form id="mesaForm">
+                <div class="form-group">
+                    <label for="mesaNumero">Número da Mesa:</label>
+                    <input type="number" id="mesaNumero" value="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="mesaCapacidade">Capacidade (Pessoas):</label>
+                    <input type="number" id="mesaCapacidade" value="4" required>
+                </div>
+                <button type="submit" class="btn">Salvar Mesa</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="output" class="message" style="grid-column: 1 / 3;">
+        Aguardando comandos do Admin...
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

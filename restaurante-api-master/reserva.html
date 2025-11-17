@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Reservas</title>
+    <link rel="stylesheet" href="styles.css"> </head>
+<body>
+<div class="container" style="display: block;">
+    <h1>Painel de Reservas e Lógica de Negócio</h1>
+    <p>Demonstração dos endpoints <code>POST /api/reservas</code> e validações (conflito/capacidade).</p>
+
+    <a href="index.html" class="btn" style="margin-bottom: 20px; display: inline-block;">Voltar para o Login</a>
+
+    <div style="display: flex; gap: 30px;">
+        <div style="flex: 1;">
+            <h3>Fazer Reserva (POST)</h3>
+            <form id="reservaForm">
+                <p style="font-size: 0.9em;">Usuário ativo: ID <strong id="currentUserId">1</strong> (Simulado)</p>
+
+                <div class="form-group">
+                    <label for="reservaMesaId">ID da Mesa (Checar na aba Database):</label>
+                    <input type="number" id="reservaMesaId" value="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="numPessoas">Pessoas (Capacidade Máx 4 para Mesa 1):</label>
+                    <input type="number" id="numPessoas" value="2" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="dataHoraInicio">Data/Hora Início (Duração 2h):</label>
+                    <input type="datetime-local" id="dataHoraInicio" required>
+                </div>
+
+                <button type="submit" class="btn">Reservar Agora</button>
+                <button type="button" class="btn" style="background: var(--accent-color);" onclick="loadMesas()">Carregar Mesas</button>
+            </form>
+        </div>
+
+        <div style="flex: 1;">
+            <h3>Resultado da Transação</h3>
+            <div id="output" class="message">
+                Pronto para a reserva...
+            </div>
+
+            <h3 style="margin-top: 30px;">Mesas Disponíveis (GET /api/mesas)</h3>
+            <table id="mesasTable" style="width: 100%; border-collapse: collapse; font-size: 0.9em;">
+                <thead>
+                <tr style="background-color: var(--secondary-color);">
+                    <th style="padding: 8px; text-align: left;">ID</th>
+                    <th style="padding: 8px; text-align: left;">Número</th>
+                    <th style="padding: 8px; text-align: left;">Capacidade</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Restaurante API</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container" style="max-width: 450px; text-align: center;">
+    <h1>Acesso ao Sistema</h1>
+
+    <form id="loginForm">
+        <div class="form-group">
+            <label for="loginEmail">Email:</label>
+            <input type="email" id="loginEmail" value="lucca.seib@email.com" required>
+        </div>
+        <div class="form-group">
+            <label for="loginSenha">Senha:</label>
+            <input type="password" id="loginSenha" value="senhaforte123" required>
+        </div>
+        <button type="submit" class="btn">ENTRAR NO PAINEL DE RESERVAS</button>
+    </form>
+
+    <div id="output" class="message" style="margin-top: 20px;">
+        Aguardando credenciais...
+    </div>
+
+    <p style="margin-top: 30px; padding: 10px; background: #eee; border-radius: 4px;">
+        Primeira vez? <a href="admin.html">Vá para o Painel de Administração</a> para cadastrar usuários e mesas.
+    </p>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

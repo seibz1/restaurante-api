@@ -1,0 +1,117 @@
+# ====================================================================
+# SEÇÃO 1: SETUP INICIAL (Criação de Entidades e Usuários)
+# Objetivo: Garantir que as chaves estrangeiras necessárias existam (ID 1 para Usuario e Mesas).
+# ====================================================================
+
+### SETUP: 1. Cadastrar Usuário Padrão (ID 1)
+# Esperado: HTTP 201 Created
+POST http://localhost:8080/api/usuarios
+Content-Type: application/json
+
+{
+  "nome": "Lucca Seib",
+  "email": "lucca.seib@email.com",
+  "senha": "senhaforte123"
+}
+
+### SETUP: 2. Cadastrar Mesa de 4 Lugares (ID 1)
+# Esperado: HTTP 201 Created
+POST http://localhost:8080/api/mesas
+Content-Type: application/json
+
+{
+  "numeroMesa": 1,
+  "capacidade": 4
+}
+
+### SETUP: 3. Cadastrar Mesa de 2 Lugares (ID 2)
+# Esperado: HTTP 201 Created
+POST http://localhost:8080/api/mesas
+Content-Type: application/json
+
+{
+  "numeroMesa": 2,
+  "capacidade": 2
+}
+
+### TESTE FUNCIONAL: Listar Mesas
+# Verifica o endpoint GET Mesa
+GET http://localhost:8080/api/mesas
+
+# ====================================================================
+# SEÇÃO 2: CORE BUSINESS LOGIC (RESERVAS)
+# Testa o fluxo de negócio (Controller -> Service -> Repository)
+# ====================================================================
+
+### TESTE 1: CAMINHO FELIZ (Criação de Reserva Válida)
+# Mapeamento: Usuario(1), Mesa(1), Duração 19h-21h
+# Esperado: HTTP 201 Created
+POST http://localhost:8080/api/reservas
+Content-Type: application/json
+
+{
+  "usuarioId": 1,
+  "mesaId": 1,
+  "dataHoraInicio": "2025-11-17T19:00:00",
+  "numeroPessoas": 2
+}
+
+### TESTE 2: REGRA DE NEGÓCIO - CONFLITO DE HORÁRIO (Falha)
+# Tenta reservar a Mesa 1, que já está ocupada no intervalo 19h-21h
+# Esperado: HTTP 500 (com a mensagem: "Horário indisponível...")
+POST http://localhost:8080/api/reservas
+Content-Type: application/json
+
+{
+  "usuarioId": 1,
+  "mesaId": 1,
+  "dataHoraInicio": "2025-11-17T19:30:00",
+  "numeroPessoas": 2
+}
+
+### TESTE 3: REGRA DE NEGÓCIO - CAPACIDADE MÁXIMA (Falha)
+# Tenta reservar Mesa 1 (capacidade 4) para 5 pessoas
+# Esperado: HTTP 500 (com a mensagem: "...excede a capacidade da mesa")
+POST http://localhost:8080/api/reservas
+Content-Type: application/json
+
+{
+  "usuarioId": 1,
+  "mesaId": 1,
+  "dataHoraInicio": "2025-11-17T20:00:00",
+  "numeroPessoas": 5
+}
+
+# ====================================================================
+# SEÇÃO 3: INTEGRAÇÃO NOSQL (Cardápio - MongoDB)
+# ====================================================================
+
+### NOSQL 1: Adicionar um item (Documento JSON)
+# Esperado: HTTP 201 Created
+POST http://localhost:8080/api/cardapio
+Content-Type: application/json
+
+{
+  "nome": "X-Burger",
+  "descricao": "Pão, bife de 150g e queijo",
+  "categoria": "Lanche",
+  "preco": 25.50,
+  "ingredientes": ["Pão", "Bife", "Queijo Cheddar"]
+}
+
+### NOSQL 2: Adicionar uma bebida
+# Esperado: HTTP 201 Created
+POST http://localhost:8080/api/cardapio
+Content-Type: application/json
+
+{
+  "nome": "Refrigerante",
+  "categoria": "Bebida",
+  "preco": 8.00
+}
+
+### NOSQL 3: Listar todos os itens (Verificação)
+GET http://localhost:8080/api/cardapio
+
+### NOSQL 4: Listar apenas por categoria (Verificação da Query Derivation do Mongo)
+GET http://localhost:8080/api/cardapio/categoria/Bebida
